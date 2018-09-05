@@ -142,7 +142,7 @@ class Cache extends CacheJail {
 		} else {
 			$entry['path'] = $path;
 		}
-		$sharePermissions = $this->storage->getPermissions($path);
+		$sharePermissions = $this->storage->getPermissions($entry['path']);
 		if (isset($entry['permissions'])) {
 			$entry['permissions'] &= $sharePermissions;
 		} else {
@@ -168,5 +168,10 @@ class Cache extends CacheJail {
 	 */
 	public function clear() {
 		// Not a valid action for Shared Cache
+	}
+
+	public function getFolderContentsById($fileId) {
+		$results = $this->getCache()->getFolderContentsById($fileId);
+		return array_map(array($this, 'formatCacheEntry'), $results);
 	}
 }
